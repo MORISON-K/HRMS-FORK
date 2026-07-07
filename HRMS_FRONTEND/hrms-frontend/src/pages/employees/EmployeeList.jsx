@@ -1,0 +1,463 @@
+import React, { useState } from 'react';
+import { FiPlus, FiEdit2, FiTrash2 } from 'react-icons/fi';
+import DashboardLayout from '../../components/layout/DashboardLayout';
+import DataTable from '../../components/common/DataTable';
+import FormModal from '../../components/common/FormModal';
+import StatusBadge from '../../components/common/StatusBadge';
+import EmployeePicker from '../../components/common/EmployeePicker';
+import { useApiResource } from '../../hooks/useApiResource';
+import { useAuth } from '../../context/AuthContext';
+import { employeesService, departmentsService, gradesService, positionsService } from '../../services/employeesService';
+import { userService } from '../../services/userService';
+import { IS_HR_OR_ADMIN, IS_DEPARTMENT_HEAD_OR_ABOVE } from '../../utils/constants';
+import styles from './EmployeeList.module.css';
+
+const GENDER_OPTIONS = [{ value: 'M', label: 'Male' }, { value: 'F', label: 'Female' }, { value: 'O', label: 'Other' }];
+const EMPLOYMENT_STATUS_OPTIONS = ['active', 'on_leave', 'suspended', 'probation', 'terminated', 'retired'];
+const CONTRACT_TYPE_OPTIONS = ['permanent', 'contract', 'casual', 'graduate', 'intern'];
+
+/* ---------- Generic simple-resource tab (Departments / Grades / Positions) ---------- */
+
+function GenericFormFields({ fields, form, setField }) {
+  return (
+    <>
+      {fields.map((f) => (
+        <div className={styles.field} key={f.key}>
+          <label>{f.label}</label>
+          {f.type === 'select' ? (
+            <select value={form[f.key] ?? ''} onChange={(e) => setField(f.key, e.target.value)}>
+              <option value="">—</option>
+              {f.options.map((o) => (
+                <option key={o.value ?? o} value={o.value ?? o}>{o.label ?? o}</option>
+              ))}
+            </select>
+          ) : (
+            <input
+              type={f.type || 'text'}
+              value={form[f.key] ?? ''}
+              onChange={(e) => setField(f.key, e.target.value)}
+              required={f.required}
+            />
+          )}
+        </div>
+      ))}
+    </>
+  );
+}
+
+function SimpleResourceTab({ service, fields, columns, canWrite }) {
+  const { data, loading, error, refetch } = useApiResource(service);
+  const [modalMode, setModalMode] = useState(null); // 'create' | editingRow | null
+  const [formError, setFormError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const editing = modalMode && modalMode !== 'create' ? modalMode : null;
+  const isOpen = modalMode !== null;
+  const [form, setForm] = useState({});
+
+  function setField(key, value) {
+    setForm((f) => ({ ...f, [key]: value }));
+  }
+  function openCreate() {
+    setFormError(null);
+    setForm({});
+    setModalMode('create');
+  }
+  function openEdit(row) {
+    setFormError(null);
+    setForm(row);
+    setModalMode(row);
+  }
+  function close() {
+    setModalMode(null);
+  }
+
+  async function handleDelete(row) {
+    if (!window.confirm('Delete this record?')) return;
+    await service.remove(row.id);
+    refetch();
+  }
+
+  async function handleFormSubmit(e) {
+    e.preventDefault();
+    setSubmitting(true);
+    setFormError(null);
+    try {
+      if (editing) {
+        await service.update(editing.id, form);
+      } else {
+        await service.create(form);
+      }
+      close();
+      refetch();
+    } catch (err) {
+      setFormError(err.response?.data ? JSON.stringify(err.response.data) : 'Save failed.');
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <div className={styles.card}>
+      {error && <div className={styles.errorBanner}>{error}</div>}
+      {canWrite && (
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 'var(--space-md)' }}>
+          <button className={styles.btnPrimary} onClick={openCreate}><FiPlus /> Add</button>
+        </div>
+      )}
+      <DataTable
+        columns={columns}
+        rows={data}
+        loading={loading}
+        actions={canWrite ? (row) => (
+          <>
+            <button className={styles.iconBtn} onClick={() => openEdit(row)}><FiEdit2 /></button>
+            <button className={`${styles.iconBtn} ${styles.dangerBtn}`} onClick={() => handleDelete(row)}><FiTrash2 /></button>
+          </>
+        ) : undefined}
+      />
+      {isOpen && (
+        <FormModal
+          title={editing ? 'Edit Record' : 'Add Record'}
+          onClose={close}
+          onSubmit={handleFormSubmit}
+          submitting={submitting}
+          error={formError}
+        >
+          <GenericFormFields fields={fields} form={form} setField={setField} />
+        </FormModal>
+      )}
+    </div>
+  );
+}
+
+/* ---------- Employees tab ---------- */
+
+function EmployeeFormModal({ editing, onClose, onSaved, departments, grades, positions, employeeOptions, userOptions }) {
+  const [form, setForm] = useState(editing ? {
+    ...editing,
+    department: editing.department?.id ?? editing.department,
+    position: editing.position?.id ?? editing.position,
+    grade: editing.grade?.id ?? editing.grade,
+    supervisor: editing.supervisor?.id ?? editing.supervisor,
+  } : {
+    user: '', employee_id: '', department: '', position: '', grade: '', supervisor: '',
+    gender: 'M', date_of_birth: '', national_id: '', join_date: '',
+    employment_status: 'active', contract_type: 'permanent', basic_salary: '',
+  });
+  const [error, setError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  function setField(key, value) {
+    setForm((f) => ({ ...f, [key]: value }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setSubmitting(true);
+    setError(null);
+    try {
+      const payload = {
+        employee_id: form.employee_id,
+        gender: form.gender,
+        department_id: form.department,
+        position_id: form.position,
+        grade_id: form.grade || undefined,
+        join_date: form.join_date,
+        date_of_birth: form.date_of_birth || undefined,
+        employment_status: form.employment_status,
+        contract_type: form.contract_type,
+        basic_salary: form.basic_salary || undefined,
+        supervisor: form.supervisor || null,
+      };
+      if (!editing) payload.user_id = form.user;
+      if (editing) {
+        await employeesService.update(editing.id, payload);
+      } else {
+        await employeesService.create(payload);
+      }
+      onSaved();
+    } catch (err) {
+      setError(err.response?.data ? JSON.stringify(err.response.data) : 'Save failed.');
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <FormModal
+      title={editing ? `Edit ${editing.employee_id}` : 'Add Employee'}
+      onClose={onClose}
+      onSubmit={handleSubmit}
+      submitting={submitting}
+      error={error}
+    >
+      {!editing && (
+        <div className={styles.field}>
+          <label>Linked User Account</label>
+          <select value={form.user} onChange={(e) => setField('user', e.target.value)} required>
+            <option value="">Select a user…</option>
+            {userOptions.map((u) => <option key={u.id} value={u.id}>{u.username} ({u.email})</option>)}
+          </select>
+        </div>
+      )}
+      <div className={styles.row2}>
+        <div className={styles.field}>
+          <label>Employee ID</label>
+          <input value={form.employee_id} onChange={(e) => setField('employee_id', e.target.value)} required />
+        </div>
+        <div className={styles.field}>
+          <label>Gender</label>
+          <select value={form.gender} onChange={(e) => setField('gender', e.target.value)}>
+            {GENDER_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </select>
+        </div>
+      </div>
+      <div className={styles.row2}>
+        <div className={styles.field}>
+          <label>Department</label>
+          <select value={form.department} onChange={(e) => setField('department', e.target.value)} required>
+            <option value="">—</option>
+            {departments.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
+          </select>
+        </div>
+        <div className={styles.field}>
+          <label>Position</label>
+          <select value={form.position} onChange={(e) => setField('position', e.target.value)} required>
+            <option value="">—</option>
+            {positions.map((p) => <option key={p.id} value={p.id}>{p.title}</option>)}
+          </select>
+        </div>
+      </div>
+      <div className={styles.row2}>
+        <div className={styles.field}>
+          <label>Grade</label>
+          <select value={form.grade} onChange={(e) => setField('grade', e.target.value)} required>
+            <option value="">—</option>
+            {grades.map((g) => <option key={g.id} value={g.id}>{g.title}</option>)}
+          </select>
+        </div>
+        <div className={styles.field}>
+          <label>Supervisor (optional)</label>
+          <EmployeePicker options={employeeOptions} value={form.supervisor} onChange={(id) => setField('supervisor', id)} />
+        </div>
+      </div>
+      <div className={styles.row2}>
+        <div className={styles.field}>
+          <label>Join Date</label>
+          <input type="date" value={form.join_date} onChange={(e) => setField('join_date', e.target.value)} required />
+        </div>
+        <div className={styles.field}>
+          <label>Date of Birth</label>
+          <input type="date" value={form.date_of_birth} onChange={(e) => setField('date_of_birth', e.target.value)} />
+        </div>
+      </div>
+      <div className={styles.row2}>
+        <div className={styles.field}>
+          <label>Employment Status</label>
+          <select value={form.employment_status} onChange={(e) => setField('employment_status', e.target.value)}>
+            {EMPLOYMENT_STATUS_OPTIONS.map((s) => <option key={s} value={s}>{s.replace('_', ' ')}</option>)}
+          </select>
+        </div>
+        <div className={styles.field}>
+          <label>Contract Type</label>
+          <select value={form.contract_type} onChange={(e) => setField('contract_type', e.target.value)}>
+            {CONTRACT_TYPE_OPTIONS.map((s) => <option key={s} value={s}>{s}</option>)}
+          </select>
+        </div>
+      </div>
+      <div className={styles.field}>
+        <label>Basic Salary</label>
+        <input type="number" step="0.01" value={form.basic_salary} onChange={(e) => setField('basic_salary', e.target.value)} />
+      </div>
+    </FormModal>
+  );
+}
+
+function EmployeesTab({ canWrite }) {
+  const { data, loading, error, refetch } = useApiResource(employeesService);
+  const departmentsRes = useApiResource(departmentsService);
+  const gradesRes = useApiResource(gradesService);
+  const positionsRes = useApiResource(positionsService);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editing, setEditing] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [loadingEdit, setLoadingEdit] = useState(false);
+
+  React.useEffect(() => {
+    if (modalOpen && !editing) {
+      userService.list().then(setUsers).catch(() => setUsers([]));
+    }
+  }, [modalOpen, editing]);
+
+  // List rows use the lightweight EmployeeListSerializer (full_name, department_name, position_title —
+  // no ids), so the picker needs employee_id + full_name, not the detail-shaped nested objects.
+  const employeeOptions = data.map((e) => ({
+    id: e.id,
+    label: `${e.employee_id} — ${e.full_name}`,
+  }));
+
+  function openCreate() {
+    setEditing(null);
+    setModalOpen(true);
+  }
+  async function openEdit(row) {
+    setLoadingEdit(true);
+    try {
+      const detail = await employeesService.get(row.id);
+      setEditing(detail);
+      setModalOpen(true);
+    } finally {
+      setLoadingEdit(false);
+    }
+  }
+  function handleSaved() {
+    setModalOpen(false);
+    refetch();
+  }
+  async function handleDelete(row) {
+    if (!window.confirm(`Delete employee "${row.employee_id}"?`)) return;
+    await employeesService.remove(row.id);
+    refetch();
+  }
+
+  const columns = [
+    { key: 'employee_id', label: 'ID' },
+    { key: 'full_name', label: 'Name' },
+    { key: 'department_name', label: 'Department' },
+    { key: 'position_title', label: 'Position' },
+    { key: 'employment_status', label: 'Status', render: (r) => <StatusBadge status={r.employment_status} /> },
+    { key: 'contract_type', label: 'Contract' },
+  ];
+
+  return (
+    <div className={styles.card}>
+      {error && <div className={styles.errorBanner}>{error}</div>}
+      {canWrite && (
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 'var(--space-md)' }}>
+          <button className={styles.btnPrimary} onClick={openCreate}><FiPlus /> Add Employee</button>
+        </div>
+      )}
+      <DataTable
+        columns={columns}
+        rows={data}
+        loading={loading}
+        actions={canWrite ? (row) => (
+          <>
+            <button className={styles.iconBtn} onClick={() => openEdit(row)} disabled={loadingEdit}><FiEdit2 /></button>
+            <button className={`${styles.iconBtn} ${styles.dangerBtn}`} onClick={() => handleDelete(row)}><FiTrash2 /></button>
+          </>
+        ) : undefined}
+      />
+      {modalOpen && (
+        <EmployeeFormModal
+          editing={editing}
+          onClose={() => setModalOpen(false)}
+          onSaved={handleSaved}
+          departments={departmentsRes.data}
+          grades={gradesRes.data}
+          positions={positionsRes.data}
+          employeeOptions={employeeOptions}
+          userOptions={users}
+        />
+      )}
+    </div>
+  );
+}
+
+/* ---------- Page shell with tabs ---------- */
+
+// Read-access requirements mirror each endpoint's backend permission class:
+// EmployeeListCreateView -> IsDepartmentHeadOrAbove, Grade/PositionListCreateView -> IsHROrAdmin,
+// DepartmentListCreateView -> IsAuthenticated (anyone logged in can read departments).
+const ALL_TABS = [
+  { key: 'employees', label: 'Employees', canRead: (role) => IS_DEPARTMENT_HEAD_OR_ABOVE.includes(role) },
+  { key: 'departments', label: 'Departments', canRead: () => true },
+  { key: 'grades', label: 'Grades', canRead: (role) => IS_HR_OR_ADMIN.includes(role) },
+  { key: 'positions', label: 'Positions', canRead: (role) => IS_HR_OR_ADMIN.includes(role) },
+];
+
+export default function EmployeeList() {
+  const { user } = useAuth();
+  const visibleTabs = ALL_TABS.filter((t) => t.canRead(user?.role));
+  const [tab, setTab] = useState(() => visibleTabs[0]?.key || 'departments');
+  const canWriteEmployees = IS_DEPARTMENT_HEAD_OR_ABOVE.includes(user?.role);
+  const canWriteLookups = IS_HR_OR_ADMIN.includes(user?.role);
+
+  return (
+    <DashboardLayout portalLabel="Workforce" searchPlaceholder="Search employees…">
+      <div className={styles.header}>
+        <div>
+          <h1 className={styles.title}>Workforce</h1>
+          <p className={styles.sub}>Employee records, departments, grades and positions.</p>
+        </div>
+      </div>
+
+      <div className={styles.tabs}>
+        {visibleTabs.map((t) => (
+          <button
+            key={t.key}
+            className={`${styles.tab} ${tab === t.key ? styles.tabActive : ''}`}
+            onClick={() => setTab(t.key)}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {tab === 'employees' && <EmployeesTab canWrite={canWriteEmployees} />}
+      {tab === 'departments' && (
+        <SimpleResourceTab
+          service={departmentsService}
+          canWrite={canWriteLookups}
+          columns={[
+            { key: 'name', label: 'Name' },
+            { key: 'code', label: 'Code' },
+            { key: 'region', label: 'Region' },
+          ]}
+          fields={[
+            { key: 'name', label: 'Name', required: true },
+            { key: 'code', label: 'Code', required: true },
+            { key: 'region', label: 'Region' },
+            { key: 'description', label: 'Description' },
+          ]}
+        />
+      )}
+      {tab === 'grades' && (
+        <SimpleResourceTab
+          service={gradesService}
+          canWrite={canWriteLookups}
+          columns={[
+            { key: 'title', label: 'Title' },
+            { key: 'level', label: 'Level' },
+            { key: 'min_salary', label: 'Min Salary' },
+            { key: 'max_salary', label: 'Max Salary' },
+          ]}
+          fields={[
+            { key: 'title', label: 'Title', required: true },
+            { key: 'level', label: 'Level', required: true },
+            { key: 'min_salary', label: 'Min Salary', type: 'number' },
+            { key: 'max_salary', label: 'Max Salary', type: 'number' },
+            { key: 'description', label: 'Description' },
+          ]}
+        />
+      )}
+      {tab === 'positions' && (
+        <SimpleResourceTab
+          service={positionsService}
+          canWrite={canWriteLookups}
+          columns={[
+            { key: 'title', label: 'Title' },
+            { key: 'department', label: 'Department', render: (r) => r.department?.name || r.department },
+            { key: 'grade', label: 'Grade', render: (r) => r.grade?.title || r.grade },
+            { key: 'is_active', label: 'Active', render: (r) => (r.is_active ? 'Yes' : 'No') },
+          ]}
+          fields={[
+            { key: 'title', label: 'Title', required: true },
+            { key: 'description', label: 'Description' },
+          ]}
+        />
+      )}
+    </DashboardLayout>
+  );
+}

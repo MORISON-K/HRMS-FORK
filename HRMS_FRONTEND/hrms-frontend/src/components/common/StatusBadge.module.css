@@ -1,0 +1,6 @@
+.pill { display:inline-block; padding:2px 8px; border-radius:var(--radius-full); font-size:0.65rem; font-weight:bold; text-transform:capitalize; white-space:nowrap; }
+.green  { background:#e6f4ea; color:#28a745; }
+.red    { background:#fff3f3; color:#dc3545; }
+.amber  { background:#fffbe6; color:#c99000; }
+.blue   { background:#eaf2fb; color:#005a9c; }
+.gray   { background:#f0f0f0; color:#6c757d; }

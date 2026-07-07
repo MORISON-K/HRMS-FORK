@@ -1,0 +1,79 @@
+from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """Extends JWT payload with user info so the frontend gets everything in one call."""
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        user = self.user
+        data['user'] = {
+            'id':           user.id,
+            'username':     user.username,
+            'email':        user.email,
+            'first_name':   user.first_name,
+            'last_name':    user.last_name,
+            'role':         user.role,
+            'role_display': user.role_display,
+            'profile_photo': user.profile_photo.url if user.profile_photo else None,
+            'must_change_password': user.must_change_password,
+        }
+        return data
+
+
+class UserSerializer(serializers.ModelSerializer):
+    full_name    = serializers.ReadOnlyField()
+    role_display = serializers.ReadOnlyField()
+
+    class Meta:
+        model  = User
+        fields = [
+            'id', 'username', 'email', 'first_name', 'last_name',
+            'full_name', 'role', 'role_display', 'phone',
+            'profile_photo', 'is_active', 'date_joined', 'must_change_password',
+        ]
+        read_only_fields = ['id', 'date_joined', 'must_change_password']
+
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    password  = serializers.CharField(write_only=True, min_length=8)
+    password2 = serializers.CharField(write_only=True)
+
+    class Meta:
+        model  = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'role', 'phone', 'password', 'password2']
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs.pop('password2'):
+            raise serializers.ValidationError({'password': 'Passwords do not match.'})
+        return attrs
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        user = User(**validated_data)
+        user.set_password(password)
+        user.must_change_password = True
+        user.save()
+        return user
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True, min_length=8)
+
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError('Old password is incorrect.')
+        return value
+
+    def save(self, **kwargs):
+        user = self.context['request'].user
+        user.set_password(self.validated_data['new_password'])
+        user.must_change_password = False
+        user.save()
+        return user

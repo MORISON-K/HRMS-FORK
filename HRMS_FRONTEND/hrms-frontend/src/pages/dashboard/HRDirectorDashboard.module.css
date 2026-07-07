@@ -1,0 +1,52 @@
+.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--space-lg);flex-wrap:wrap;gap:var(--space-md);}
+.title{font-size:1.4rem;font-weight:var(--font-weight-bold);color:var(--color-text);}
+.sub{font-size:var(--font-size-sm);color:var(--color-text-muted);margin-top:2px;}
+.headerBtns{display:flex;gap:var(--space-sm);}
+.btnOutline{display:flex;align-items:center;gap:4px;padding:0.45rem 0.9rem;border:1.5px solid var(--color-border);color:var(--color-text);background:#fff;border-radius:var(--radius-sm);font-size:var(--font-size-sm);cursor:pointer;}
+.btnPrimary{display:flex;align-items:center;gap:4px;padding:0.45rem 0.9rem;border:none;background:#00244d;color:#fff;border-radius:var(--radius-sm);font-size:var(--font-size-sm);cursor:pointer;}
+
+.kpiRow{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-md);margin-bottom:var(--space-md);}
+.kpiCard{background:#fff;border-radius:var(--radius-md);padding:var(--space-md);box-shadow:var(--shadow-sm);}
+.kpiLabel{font-size:var(--font-size-sm);color:var(--color-text-muted);margin-bottom:4px;}
+.kpiVal{font-size:1.6rem;font-weight:var(--font-weight-bold);color:var(--color-text);}
+.kpiSub{font-size:0.7rem;color:var(--color-text-muted);margin-top:2px;}
+.trend{font-size:var(--font-size-sm);font-weight:var(--font-weight-medium);margin-top:4px;}
+.up{color:var(--color-success);}
+.down{color:var(--color-danger);}
+.extra{font-size:var(--font-size-sm);color:var(--color-primary);margin-top:4px;}
+
+.twoCol{display:grid;grid-template-columns:3fr 2fr;gap:var(--space-md);}
+.card{background:#fff;border-radius:var(--radius-md);padding:var(--space-md);box-shadow:var(--shadow-sm);}
+.cardHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-md);font-weight:var(--font-weight-bold);font-size:0.9rem;}
+.legend{display:flex;align-items:center;gap:var(--space-sm);font-size:var(--font-size-sm);}
+.legendBudget{color:#00244d;}
+.legendActual{color:#c8dcf0;}
+
+.barGroup{display:flex;align-items:flex-end;gap:var(--space-sm);height:110px;margin-bottom:var(--space-sm);}
+.barPair{display:flex;flex-direction:column;align-items:center;flex:1;gap:4px;}
+.bars{display:flex;align-items:flex-end;gap:3px;height:100px;}
+.budgetBar{width:14px;background:#00244d;border-radius:3px 3px 0 0;}
+.actualBar{width:14px;background:#c8dcf0;border:1px solid #aac;border-radius:3px 3px 0 0;}
+.barMonth{font-size:0.65rem;color:var(--color-text-muted);}
+.chartFooter{display:flex;gap:var(--space-lg);padding-top:var(--space-sm);border-top:1px solid var(--color-border);font-size:var(--font-size-sm);}
+.footerLabel{font-size:0.65rem;color:var(--color-text-muted);text-transform:uppercase;}
+.variance{color:var(--color-danger);}
+
+.mapPlaceholder{height:140px;background:#eaf2fb;border-radius:var(--radius-sm);position:relative;margin-bottom:var(--space-sm);}
+.mapDot{position:absolute;width:10px;height:10px;background:var(--color-primary);border-radius:50%;transform:translate(-50%,-50%);}
+.regions{display:flex;flex-direction:column;gap:var(--space-xs);}
+.regionRow{display:flex;align-items:center;gap:var(--space-sm);font-size:var(--font-size-sm);}
+.dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.iconBtn{background:none;border:1px solid var(--color-border);border-radius:4px;padding:2px 6px;cursor:pointer;color:var(--color-text-muted);}
+
+.table{width:100%;border-collapse:collapse;font-size:var(--font-size-sm);}
+.table th{text-align:left;padding:0.4rem 0.5rem;color:var(--color-text-muted);font-weight:var(--font-weight-medium);border-bottom:1px solid var(--color-border);}
+.table td{padding:0.6rem 0.5rem;border-bottom:1px solid #f0f0f0;}
+.deptName{font-weight:var(--font-weight-medium);color:var(--color-primary);}
+.statusBadge{padding:2px 8px;border-radius:var(--radius-full);font-size:0.65rem;font-weight:bold;}
+.optimal{background:#e6f4ea;color:#28a745;}
+.highcost{background:#fff3cd;color:#856404;}
+.stable{background:#e6f0ff;color:#005a9c;}
+.actionBtn{background:none;border:none;color:var(--color-primary);font-size:0.7rem;font-weight:bold;cursor:pointer;letter-spacing:0.5px;}
+
+@media(max-width:900px){.kpiRow{grid-template-columns:1fr 1fr;}.twoCol{grid-template-columns:1fr;}}

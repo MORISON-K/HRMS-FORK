@@ -1,0 +1,82 @@
+.header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:var(--space-lg); flex-wrap:wrap; gap:var(--space-md); }
+.overline { font-size:0.65rem; text-transform:uppercase; letter-spacing:1px; color:var(--color-text-muted); }
+.title { font-size:1.4rem; font-weight:var(--font-weight-bold); color:var(--color-text); }
+.sub { font-size:var(--font-size-sm); color:var(--color-text-muted); margin-top:2px; }
+.headerBtns { display:flex; gap:var(--space-sm); }
+.btnOutline { display:flex; align-items:center; gap:4px; padding:0.45rem 0.9rem; border:1.5px solid var(--color-border); color:var(--color-text); background:#fff; border-radius:var(--radius-sm); font-size:var(--font-size-sm); cursor:pointer; }
+.btnPrimary { display:flex; align-items:center; gap:4px; padding:0.45rem 0.9rem; border:none; background:#00244d; color:#fff; border-radius:var(--radius-sm); font-size:var(--font-size-sm); cursor:pointer; font-weight:var(--font-weight-medium); }
+
+/* KPI row */
+.kpiRow { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-md); margin-bottom:var(--space-md); }
+.kpiCard { background:#fff; border-radius:var(--radius-md); padding:var(--space-md); box-shadow:var(--shadow-sm); }
+.kpiAlert { border-top:3px solid var(--color-danger); }
+.kpiTop { display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-xs); }
+.kpiIcon { font-size:1.2rem; }
+.kpiTrend { display:flex; align-items:center; gap:2px; font-size:0.75rem; font-weight:var(--font-weight-medium); }
+.up { color:var(--color-success); }
+.down { color:var(--color-danger); }
+.kpiVal { font-size:1.8rem; font-weight:var(--font-weight-bold); color:var(--color-text); line-height:1.1; }
+.kpiLabel { font-size:var(--font-size-sm); font-weight:var(--font-weight-medium); color:var(--color-text); margin-top:2px; }
+.kpiSub { font-size:0.7rem; color:var(--color-text-muted); }
+
+/* Layout */
+.twoCol { display:grid; grid-template-columns:3fr 2fr; gap:var(--space-md); }
+.card { background:#fff; border-radius:var(--radius-md); padding:var(--space-md); box-shadow:var(--shadow-sm); }
+.cardHeader { display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-md); font-weight:var(--font-weight-bold); font-size:0.9rem; }
+.q { font-size:0.7rem; color:var(--color-text-muted); font-weight:normal; }
+.legend { display:flex; gap:var(--space-md); font-size:var(--font-size-sm); color:var(--color-text-muted); }
+.dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:4px; }
+
+/* Bar chart */
+.barGroup { display:flex; align-items:flex-end; gap:var(--space-sm); height:110px; margin-bottom:var(--space-sm); }
+.barPair { display:flex; flex-direction:column; align-items:center; flex:1; gap:4px; }
+.bars { display:flex; align-items:flex-end; gap:3px; height:100px; }
+.barActual { width:14px; background:#00244d; border-radius:3px 3px 0 0; transition:height 0.3s; }
+.barTarget { width:14px; background:#c8dcf0; border:1px solid #b0ccde; border-radius:3px 3px 0 0; }
+.barLabel { font-size:0.65rem; color:var(--color-text-muted); }
+.chartFooter { display:flex; gap:var(--space-xl); padding-top:var(--space-sm); border-top:1px solid var(--color-border); font-size:var(--font-size-sm); }
+.footLabel { font-size:0.65rem; color:var(--color-text-muted); text-transform:uppercase; }
+.gap { color:var(--color-warning); }
+
+/* Strategic Initiatives */
+.initItem { margin-bottom:var(--space-md); }
+.initTop { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
+.initLabel { font-size:var(--font-size-sm); font-weight:var(--font-weight-medium); color:var(--color-text); }
+.initStatus { font-size:0.7rem; font-weight:var(--font-weight-bold); }
+.initBar { height:6px; background:var(--color-border); border-radius:3px; margin-bottom:2px; }
+.initFill { height:100%; border-radius:3px; transition:width 0.4s ease; }
+.initPct { font-size:0.7rem; color:var(--color-text-muted); text-align:right; }
+
+/* Approvals table */
+.countBadge { background:var(--color-primary-light); color:var(--color-primary); font-size:0.7rem; font-weight:bold; padding:2px 8px; border-radius:var(--radius-full); }
+.emptyState { text-align:center; padding:var(--space-lg); color:var(--color-success); font-size:var(--font-size-sm); }
+.table { width:100%; border-collapse:collapse; font-size:var(--font-size-sm); }
+.table th { text-align:left; padding:0.4rem 0.5rem; color:var(--color-text-muted); font-weight:var(--font-weight-medium); border-bottom:1px solid var(--color-border); }
+.table td { padding:0.55rem 0.5rem; border-bottom:1px solid #f5f5f5; vertical-align:middle; }
+.empCell { display:flex; align-items:center; gap:var(--space-sm); }
+.ava { width:28px; height:28px; border-radius:50%; background:var(--color-primary-light); color:var(--color-primary); display:flex; align-items:center; justify-content:center; font-size:0.65rem; font-weight:bold; flex-shrink:0; }
+.empName { font-weight:var(--font-weight-medium); line-height:1.2; }
+.empDept { font-size:0.7rem; color:var(--color-text-muted); }
+.typeCell { max-width:140px; }
+.sBadge { padding:2px 8px; border-radius:var(--radius-full); font-size:0.65rem; font-weight:bold; }
+.actions { display:flex; gap:4px; }
+.approveBtn { width:24px; height:24px; background:#e6f4ea; color:#28a745; border:none; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.rejectBtn  { width:24px; height:24px; background:#fdecea; color:#dc3545; border:none; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.viewBtn    { width:24px; height:24px; background:#f0f0f0; color:var(--color-text-muted); border:none; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+
+/* Risk Register */
+.riskItem { display:flex; align-items:center; gap:var(--space-sm); padding:var(--space-sm) 0; border-bottom:1px solid #f5f5f5; }
+.riskLevel { font-size:0.6rem; font-weight:bold; padding:2px 8px; border-radius:var(--radius-full); white-space:nowrap; }
+.riskBody { flex:1; }
+.riskLabel { font-size:var(--font-size-sm); color:var(--color-text); }
+.riskDept { font-size:0.7rem; color:var(--color-text-muted); }
+.riskIcon { font-size:1rem; }
+
+/* Dept summary */
+.deptSummary { margin-top:var(--space-sm); }
+.deptRow { display:flex; align-items:center; gap:var(--space-sm); margin-bottom:var(--space-sm); font-size:var(--font-size-sm); }
+.deptName { min-width:130px; color:var(--color-text-muted); }
+.deptBar { flex:1; height:6px; background:var(--color-border); border-radius:3px; overflow:hidden; }
+.deptVal { min-width:36px; text-align:right; }
+
+@media(max-width:900px) { .kpiRow { grid-template-columns:1fr 1fr; } .twoCol { grid-template-columns:1fr; } }

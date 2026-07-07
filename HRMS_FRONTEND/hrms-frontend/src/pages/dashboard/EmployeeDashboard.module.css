@@ -1,0 +1,76 @@
+.topRow{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--space-lg);flex-wrap:wrap;gap:var(--space-md);}
+.greeting{font-size:1.5rem;font-weight:var(--font-weight-bold);color:var(--color-text);}
+.greetingSub{font-size:var(--font-size-sm);color:var(--color-text-muted);}
+.topBtns{display:flex;gap:var(--space-sm);}
+.btnOutline{display:flex;align-items:center;gap:4px;padding:0.45rem 0.9rem;border:1.5px solid var(--color-border);color:var(--color-text);background:#fff;border-radius:var(--radius-sm);font-size:var(--font-size-sm);cursor:pointer;}
+.btnPrimary{display:flex;align-items:center;gap:4px;padding:0.45rem 0.9rem;border:none;background:var(--color-primary);color:#fff;border-radius:var(--radius-sm);font-size:var(--font-size-sm);cursor:pointer;}
+
+.mainGrid{display:grid;grid-template-columns:1.1fr 1fr;gap:var(--space-md);}
+.rightCol{display:flex;flex-direction:column;gap:var(--space-md);}
+
+/* Profile */
+.profileCard{background:#fff;border-radius:var(--radius-md);padding:var(--space-md);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:var(--space-md);}
+.profileImgWrap{display:flex;align-items:center;gap:var(--space-md);}
+.profileImg{width:60px;height:60px;border-radius:50%;background:var(--color-primary-light);color:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:bold;flex-shrink:0;}
+.profileInfo{flex:1;}
+.empName{font-size:1.1rem;font-weight:var(--font-weight-bold);color:var(--color-text);}
+.empTitle{font-size:var(--font-size-sm);color:var(--color-text-muted);}
+.empMeta{margin-top:var(--space-sm);}
+.metaRow{display:flex;gap:var(--space-md);font-size:var(--font-size-sm);padding:2px 0;}
+.metaRow span{color:var(--color-text-muted);min-width:90px;}
+.stats{display:flex;gap:var(--space-lg);margin-top:var(--space-sm);}
+.stat{text-align:center;}
+.statVal{font-size:1rem;font-weight:bold;color:var(--color-text);}
+.statLbl{font-size:0.6rem;color:var(--color-text-muted);letter-spacing:0.5px;}
+
+/* Leave */
+.leaveRow{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-sm);}
+.leaveCard{background:#f8f9fa;border-radius:var(--radius-sm);padding:var(--space-sm);text-align:center;}
+.leaveTag{font-size:0.65rem;font-weight:bold;color:var(--color-text-muted);letter-spacing:0.5px;}
+.leaveVal{font-size:1.6rem;font-weight:bold;}
+.leaveSub{font-size:0.65rem;color:var(--color-text-muted);}
+.leaveBar{height:3px;background:var(--color-border);border-radius:2px;margin-top:4px;}
+.leaveBarFill{height:100%;border-radius:2px;}
+
+/* Bottom cards */
+.bottomCards{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-sm);}
+.payslipCard{background:#eaf2fb;border-radius:var(--radius-sm);padding:var(--space-sm);display:flex;align-items:center;gap:var(--space-sm);}
+.payslipIcon{font-size:1.2rem;}
+.payslipTitle{font-size:var(--font-size-sm);font-weight:var(--font-weight-medium);}
+.payslipStatus{font-size:0.7rem;color:var(--color-success);}
+.downloadBtn{margin-left:auto;background:none;border:none;font-size:1rem;cursor:pointer;color:var(--color-primary);}
+.holidayCard{background:#f8f9fa;border-radius:var(--radius-sm);padding:var(--space-sm);display:flex;align-items:center;gap:var(--space-sm);}
+.holidayDate{background:var(--color-primary);color:#fff;border-radius:4px;padding:4px 8px;text-align:center;}
+.hdNum{font-size:1.2rem;font-weight:bold;line-height:1;}
+.hdMon{font-size:0.6rem;}
+.holidayName{font-size:var(--font-size-sm);font-weight:var(--font-weight-medium);}
+.holidaySub{font-size:0.7rem;color:var(--color-text-muted);}
+
+/* Common card */
+.card{background:#fff;border-radius:var(--radius-md);padding:var(--space-md);box-shadow:var(--shadow-sm);}
+.cardHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-md);font-weight:var(--font-weight-bold);font-size:0.9rem;}
+.addBtn{display:flex;align-items:center;gap:4px;background:none;border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:0.3rem 0.6rem;font-size:var(--font-size-sm);color:var(--color-primary);cursor:pointer;}
+
+/* Tasks */
+.taskRow{display:flex;align-items:flex-start;gap:var(--space-sm);padding:var(--space-sm) 0;border-bottom:1px solid #f5f5f5;}
+.taskDone .taskText{text-decoration:line-through;color:var(--color-text-muted);}
+.taskCheck{width:16px;height:16px;accent-color:var(--color-success);flex-shrink:0;margin-top:2px;}
+.taskText{font-size:var(--font-size-sm);color:var(--color-text);}
+.taskDue{font-size:0.7rem;color:var(--color-text-muted);}
+.moreIcon{margin-left:auto;color:var(--color-text-muted);flex-shrink:0;}
+
+/* Support */
+.supportCard{background:#00244d;border-radius:var(--radius-md);padding:var(--space-md);color:#fff;}
+.supportTitle{font-size:1rem;font-weight:bold;margin-bottom:4px;}
+.supportSub{font-size:var(--font-size-sm);opacity:0.8;margin-bottom:var(--space-md);}
+.chatBtn{display:flex;align-items:center;gap:4px;background:var(--color-primary);color:#fff;border:none;border-radius:var(--radius-sm);padding:0.5rem 1rem;font-size:var(--font-size-sm);cursor:pointer;}
+
+/* Resources */
+.resourceGrid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-sm);}
+.resourceBtn{background:#f8f9fa;border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:0.5rem;font-size:var(--font-size-sm);cursor:pointer;text-align:left;color:var(--color-text);}
+.resourceBtn:hover{background:var(--color-primary-light);}
+
+.footer{margin-top:var(--space-xl);text-align:center;font-size:var(--font-size-sm);color:var(--color-text-muted);}
+.footer a{color:var(--color-primary);}
+
+@media(max-width:900px){.mainGrid{grid-template-columns:1fr;}}

@@ -1,0 +1,48 @@
+.topRow{display:grid;grid-template-columns:2fr 1fr;gap:var(--space-md);margin-bottom:var(--space-md);}
+.welcomeCard{background:#00244d;border-radius:var(--radius-md);padding:var(--space-xl);color:#fff;}
+.memberTag{font-size:0.65rem;font-weight:bold;letter-spacing:1px;color:rgba(255,255,255,0.5);margin-bottom:var(--space-sm);}
+.welcomeTitle{font-size:1.8rem;font-weight:bold;margin-bottom:var(--space-sm);}
+.welcomeSub{font-size:var(--font-size-sm);opacity:0.8;margin-bottom:var(--space-md);}
+.continueBtn{background:var(--color-primary);color:#fff;border:none;border-radius:var(--radius-sm);padding:0.6rem 1.5rem;font-size:var(--font-size-sm);font-weight:bold;cursor:pointer;}
+
+.progressPanel{background:#fff;border-radius:var(--radius-md);padding:var(--space-md);box-shadow:var(--shadow-sm);}
+.progressLabel{font-size:0.65rem;text-transform:uppercase;color:var(--color-text-muted);letter-spacing:0.5px;}
+.progressHours{font-size:2rem;font-weight:bold;color:var(--color-text);}
+.progressHours span{font-size:0.75rem;font-weight:normal;color:var(--color-text-muted);}
+.progressBar{height:8px;background:var(--color-border);border-radius:4px;margin:var(--space-sm) 0;}
+.progressFill{height:100%;background:var(--color-primary);border-radius:4px;}
+.progressStats{display:flex;gap:var(--space-lg);}
+.psVal{font-size:1.1rem;font-weight:bold;color:var(--color-text);}
+.psLbl{font-size:0.7rem;color:var(--color-text-muted);}
+
+.twoCol{display:grid;grid-template-columns:3fr 2fr;gap:var(--space-md);}
+.leftCol{display:flex;flex-direction:column;gap:var(--space-md);}
+.card{background:#fff;border-radius:var(--radius-md);padding:var(--space-md);box-shadow:var(--shadow-sm);}
+.cardHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-md);font-weight:bold;font-size:0.9rem;}
+.viewAll{background:none;border:none;color:var(--color-primary);font-size:var(--font-size-sm);cursor:pointer;}
+
+.courseGrid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);}
+.courseCard{border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-sm);position:relative;}
+.courseTag{position:absolute;top:var(--space-sm);left:var(--space-sm);color:#fff;font-size:0.6rem;font-weight:bold;padding:2px 6px;border-radius:var(--radius-full);}
+.courseImg{height:80px;background:linear-gradient(135deg,#c8dcf0,#eaf2fb);border-radius:var(--radius-sm);margin-bottom:var(--space-sm);}
+.courseTitle{font-size:var(--font-size-sm);font-weight:var(--font-weight-medium);margin-bottom:4px;}
+.courseBar{height:4px;background:var(--color-border);border-radius:2px;margin-bottom:4px;}
+.courseFill{height:100%;background:var(--color-success);border-radius:2px;}
+.courseTime{font-size:0.7rem;color:var(--color-text-muted);}
+
+.liveItem{border-left:3px solid var(--color-primary);padding:var(--space-sm) var(--space-md);margin-bottom:var(--space-md);}
+.liveTime{font-size:0.65rem;font-weight:bold;color:var(--color-primary);letter-spacing:0.5px;}
+.liveTitle{font-size:var(--font-size-sm);font-weight:bold;color:var(--color-text);}
+.liveSub{font-size:0.7rem;color:var(--color-text-muted);margin-bottom:4px;}
+.joinBtn{background:none;border:1px solid var(--color-primary);color:var(--color-primary);border-radius:var(--radius-sm);padding:0.25rem 0.6rem;font-size:0.7rem;cursor:pointer;}
+
+.milestoneCard{background:#00244d;border-radius:var(--radius-md);padding:var(--space-md);color:#fff;margin-top:var(--space-md);}
+.mileTitle{font-weight:bold;font-size:var(--font-size-sm);margin-bottom:4px;}
+.mileSub{font-size:0.75rem;opacity:0.8;margin-bottom:var(--space-sm);}
+.mileProgress{display:flex;align-items:center;gap:var(--space-sm);}
+.mileBar{flex:1;height:6px;background:rgba(255,255,255,0.2);border-radius:3px;}
+.mileFill{height:100%;background:var(--color-accent);border-radius:3px;}
+.mileCount{font-size:0.65rem;opacity:0.7;white-space:nowrap;}
+.milePct{font-size:0.75rem;font-weight:bold;text-align:right;margin-top:2px;color:var(--color-accent);}
+
+@media(max-width:900px){.topRow,.twoCol,.courseGrid{grid-template-columns:1fr;}}

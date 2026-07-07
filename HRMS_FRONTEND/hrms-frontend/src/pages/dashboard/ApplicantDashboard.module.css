@@ -1,0 +1,68 @@
+.welcomeBanner{background:#00244d;border-radius:var(--radius-md);padding:var(--space-xl);color:#fff;margin-bottom:var(--space-md);}
+.welcomeTitle{font-size:1.5rem;font-weight:bold;margin-bottom:4px;}
+.welcomeSub{font-size:var(--font-size-sm);opacity:0.8;margin-bottom:var(--space-md);}
+.welcomeBtns{display:flex;gap:var(--space-sm);}
+.btnPrimary{background:var(--color-primary);color:#fff;border:none;border-radius:var(--radius-sm);padding:0.5rem 1.2rem;font-size:var(--font-size-sm);font-weight:bold;cursor:pointer;}
+.btnOutline{background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.4);border-radius:var(--radius-sm);padding:0.5rem 1.2rem;font-size:var(--font-size-sm);cursor:pointer;}
+
+.mainGrid{display:grid;grid-template-columns:3fr 2fr;gap:var(--space-md);}
+.leftCol{display:flex;flex-direction:column;}
+.rightCol{display:flex;flex-direction:column;gap:var(--space-md);}
+.card{background:#fff;border-radius:var(--radius-md);padding:var(--space-md);box-shadow:var(--shadow-sm);}
+.cardHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-md);font-weight:bold;font-size:0.9rem;}
+.viewAll{background:none;border:none;color:var(--color-primary);font-size:var(--font-size-sm);cursor:pointer;}
+.navBtn{background:none;border:1px solid var(--color-border);border-radius:var(--radius-sm);width:24px;height:24px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;}
+
+/* Applications */
+.appRow{display:flex;align-items:center;gap:var(--space-md);padding:var(--space-sm) 0;border-bottom:1px solid #f5f5f5;}
+.appIcon{width:36px;height:36px;border-radius:var(--radius-sm);background:var(--color-primary-light);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.appInfo{flex:1;}
+.appTitle{font-weight:var(--font-weight-medium);font-size:var(--font-size-sm);}
+.appMeta{font-size:0.7rem;color:var(--color-text-muted);}
+.appStatus{text-align:right;}
+.statusBadge{font-size:0.65rem;font-weight:bold;padding:2px 8px;border-radius:var(--radius-full);display:inline-block;margin-bottom:4px;}
+.appBar{width:100px;height:4px;background:var(--color-border);border-radius:2px;}
+.appBarFill{height:100%;border-radius:2px;}
+
+/* Jobs */
+.jobGrid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);}
+.jobCard{border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-sm);}
+.jobHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-sm);}
+.jobIcon{font-size:1.4rem;}
+.jobType{font-size:0.6rem;font-weight:bold;background:var(--color-primary-light);color:var(--color-primary);padding:2px 6px;border-radius:var(--radius-full);}
+.jobTitle{font-weight:bold;font-size:var(--font-size-sm);margin-bottom:2px;}
+.jobLocation{font-size:0.7rem;color:var(--color-text-muted);margin-bottom:var(--space-sm);}
+.jobFooter{display:flex;justify-content:space-between;align-items:center;}
+.jobSalary{font-size:0.75rem;font-weight:bold;color:var(--color-text);}
+.applyBtn{background:var(--color-primary);color:#fff;border:none;border-radius:var(--radius-sm);padding:0.3rem 0.7rem;font-size:0.7rem;cursor:pointer;}
+
+/* Onboarding */
+.onboardProgress{font-size:var(--font-size-sm);color:var(--color-text-muted);margin-bottom:var(--space-md);}
+.onboardItem{display:flex;gap:var(--space-sm);padding:var(--space-sm) 0;border-bottom:1px solid #f5f5f5;align-items:flex-start;}
+.onboardCheck{width:20px;height:20px;border-radius:50%;border:2px solid var(--color-border);display:flex;align-items:center;justify-content:center;font-size:0.65rem;flex-shrink:0;color:#fff;}
+.checked{background:var(--color-success);border-color:var(--color-success);}
+.onboardLabel{font-size:var(--font-size-sm);font-weight:var(--font-weight-medium);}
+.done{text-decoration:line-through;color:var(--color-text-muted);}
+.onboardNote{font-size:0.7rem;color:var(--color-text-muted);}
+.scheduleBtn{background:var(--color-primary);color:#fff;border:none;border-radius:var(--radius-sm);padding:0.25rem 0.6rem;font-size:0.7rem;cursor:pointer;margin-top:4px;}
+
+/* Interview card */
+.interviewCard{background:#00244d;border-radius:var(--radius-md);padding:var(--space-md);color:#fff;}
+.ivTag{font-size:0.65rem;font-weight:bold;letter-spacing:0.5px;background:var(--color-accent);color:#333;display:inline-block;padding:2px 8px;border-radius:var(--radius-full);margin-bottom:4px;}
+.ivTitle{font-size:1rem;font-weight:bold;}
+.ivRole{font-size:var(--font-size-sm);opacity:0.8;margin-bottom:var(--space-sm);}
+.ivDetails{display:flex;flex-direction:column;gap:4px;font-size:var(--font-size-sm);opacity:0.9;margin-bottom:var(--space-md);}
+.joinBtn{width:100%;background:var(--color-primary);color:#fff;border:none;border-radius:var(--radius-sm);padding:0.6rem;font-size:var(--font-size-sm);font-weight:bold;cursor:pointer;}
+
+/* Profile strength */
+.profileLabel{font-size:0.65rem;text-transform:uppercase;color:var(--color-text-muted);letter-spacing:0.5px;}
+.profilePct{font-size:1.8rem;font-weight:bold;color:var(--color-text);}
+.profileRating{font-size:var(--font-size-sm);color:var(--color-success);margin-bottom:4px;}
+.profileBar{height:6px;background:var(--color-border);border-radius:3px;margin-bottom:var(--space-sm);}
+.profileFill{height:100%;background:var(--color-success);border-radius:3px;}
+.profileTip{font-size:0.75rem;color:var(--color-text-muted);}
+
+.footer{margin-top:var(--space-xl);text-align:center;font-size:var(--font-size-sm);color:var(--color-text-muted);}
+.footer a{color:var(--color-primary);}
+
+@media(max-width:900px){.mainGrid{grid-template-columns:1fr;}.jobGrid{grid-template-columns:1fr;}}
