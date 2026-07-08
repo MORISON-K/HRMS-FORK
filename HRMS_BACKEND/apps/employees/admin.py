@@ -21,4 +21,4 @@ class EmployeeAdmin(admin.ModelAdmin):
     list_display  = ['employee_id', 'full_name', 'department', 'position', 'employment_status']
     list_filter   = ['employment_status', 'contract_type', 'department', 'gender']
     search_fields = ['employee_id', 'user__first_name', 'user__last_name']
-    raw_id_fields = ['user', 'supervisor']
+    autocomplete_fields = ['user']

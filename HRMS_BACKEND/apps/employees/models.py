@@ -69,7 +69,6 @@ class Employee(models.Model):
     department      = models.ForeignKey(Department, on_delete=models.PROTECT, related_name='employees')
     position        = models.ForeignKey(Position, on_delete=models.PROTECT)
     grade           = models.ForeignKey(Grade, null=True, blank=True, on_delete=models.SET_NULL)
-    supervisor      = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='subordinates')
 
     # Personal
     gender          = models.CharField(max_length=1, choices=GENDER_CHOICES)
