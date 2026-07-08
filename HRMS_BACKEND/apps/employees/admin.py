@@ -8,7 +8,7 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 @admin.register(Grade)
 class GradeAdmin(admin.ModelAdmin):
-    list_display = ['level', 'title', 'min_salary', 'max_salary']
+    list_display = ['level', 'min_salary', 'max_salary']
 
 @admin.register(Position)
 class PositionAdmin(admin.ModelAdmin):
