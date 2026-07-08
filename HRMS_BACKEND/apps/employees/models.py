@@ -29,7 +29,7 @@ class Grade(models.Model):
         ordering = ['level']
 
     def __str__(self):
-        return f'{self.level} — {self.title}'
+        return f'{self.level} — {self.max_salary}'
 
 
 class Position(models.Model):
